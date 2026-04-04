@@ -1,9 +1,6 @@
 - name: Nosso Site
   link: /#
-  dropdown:
-    - name: Blog
-      link: /blog/
-    - name: Loja
-      link: /products/
+- name: Loja
+  link: /products/
 - name: Sobre Nós
   link: /about/
