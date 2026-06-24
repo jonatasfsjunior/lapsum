@@ -39,7 +39,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
   - jekyll-feed
-  - jekyll-seo-tag
+#  - jekyll-seo-tag
   - kramdown-parser-gfm
   - jekyll-redirect-from
 
@@ -52,7 +52,6 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - jstudio3design
   - .vscode/
   - .github/
   - _includes/gallery.html
@@ -118,7 +117,7 @@ social:
   - whatsapp: #Add your WhatsApp
   - telegram: #Add your Telegram
   - twitch: #Add your Twitch
-  - discord: #Add your Discord
+  - discord: https://discord.gg/hrDm7K9bcR
   - reddit: #Add your Reddit
   - skype: #Add your Skype
   - stack-overflow: #Add your Stack Overflow
