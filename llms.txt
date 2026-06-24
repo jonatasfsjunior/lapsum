@@ -2,12 +2,12 @@
 layout: null
 ---
 
-# Feed LLM para eclipstastudio.vercel.app
+# Feed LLM para lapsumcriativo.vercel.app
 _Gerado em: {{ site.time | date_to_rfc822 }}_
 
 
 ## Todos os posts
 Os links abaixo levam você ao conteúdo Markdown original.
 
-{% for post in site.posts %}- [{{ post.title }}](https://raw.githubusercontent.com/jonatasfsjunior/eclipsta/refs/heads/main/{{ post.path }})
+{% for post in site.posts %}- [{{ post.title }}](https://raw.githubusercontent.com/jonatasfsjunior/lapsum/refs/heads/main/{{ post.path }})
 {% endfor %}

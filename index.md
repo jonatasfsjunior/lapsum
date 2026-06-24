@@ -11,7 +11,6 @@ hero_height: is-fullheight
 hero_image_thumbs: true
 hero_hide_text: true
 ---
-<!-- Eclipsta Studios - Sobre a empresa-->
 
 ## Nossos Trabalhos
 

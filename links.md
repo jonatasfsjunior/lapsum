@@ -1,6 +1,6 @@
 ---
 layout: links
-title: Eclipsta Studio
+title: Lapsum Criativo
 show_sidebar: false
 subtitle: Todas as minhas redes sociais.
 avatar: 

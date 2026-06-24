@@ -12,7 +12,7 @@ description: >
 baseurl: ""
 url: "https://lapsumcriativo.vercel.app"
 permalink: pretty
-favicon: "/img/Eclipsta.svg"
+favicon: "/img/Lapsum.svg"
 gh_sponsor: 
 #hide_share_buttons: true
 fixed_navbar: top
@@ -83,14 +83,14 @@ defaults:
       path: ""
       type: "posts"
     values:
-      author: "Eclipsta Studio"
+      author: "Lapsum Criativo"
       layout: post
       image:
       show_sidebar: true
   - scope:
       path: ""
     values:
-      image: /img/Eclipsta.svg
+      image: /img/Lapsum-Placeholder.svg
 
 markdown: kramdown
 highlighter: rouge
