@@ -31,13 +31,13 @@
 <meta name="twitter:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ site.image | absolute_url }}{% endif %}">
 
 <!-- OG de produto -->
-{% if page.layout == 'product' and page.price %}
-    <meta property="product:price:amount" content="{{ page.price }}">
+{% if page.layout == 'product' and page.price- %}
+    <meta property="product:price:amount" content="{{ page.price-br }}">
     <meta property="product:price:currency" content="BRL">
 {% endif %}
 
 <!-- JSON-LD para Google -->
-{% if page.layout == 'product' and page.price %}
+{% if page.layout == 'product' and page.price-br %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
