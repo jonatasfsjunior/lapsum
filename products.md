@@ -5,5 +5,11 @@ description: Confira todos os meus produtos á venda.
 layout: product-category
 show_sidebar: false
 sort: title
-hero_height: is-medium
+hero_images:
+    - img\cards\L200-2019-HPE-S.png
+    - img\cards\Polo-2024-Track.png
+    - img\cards\Yaris-2025-XL-XS.png
+hero_height: is-fullheight
+hero_image_thumbs: true
+hero_hide_text: true
 ---

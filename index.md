@@ -1,6 +1,6 @@
 ---
-title:
-subtitle:
+title: Lapsum Criativo
+subtitle: Início
 layout: page
 show_sidebar: false
 hero_images:
@@ -9,6 +9,7 @@ hero_images:
     - img\cards\Yaris-2025-XL-XS.png
 hero_height: is-fullheight
 hero_image_thumbs: true
+hero_hide_text: true
 ---
 <!-- Eclipsta Studios - Sobre a empresa-->
 

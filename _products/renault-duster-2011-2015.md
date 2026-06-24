@@ -18,7 +18,8 @@ features:
     icon:
 rating: 5
 hide_hero: true
-tags: [Carros,Low-Poly,Francês,Romeno,Europeu,Brasileiro,Segmento C,Compactos,Crossover,SUV]
+tags: [Carros,Low-Poly,Francês,Romeno,Europeu,Brasileiro,Segmento B,Compactos,Crossover,SUV]
+published: false
 ---
 ### Galeria
 
