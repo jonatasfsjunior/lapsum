@@ -31,12 +31,6 @@
 <meta name="twitter:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ site.image | absolute_url }}{% endif %}">
 
 <!-- OG de produto -->
-{% if page.layout == 'product' and page.price- %}
-    <meta property="product:price:amount" content="{{ page.price-br }}">
-    <meta property="product:price:currency" content="BRL">
-{% endif %}
-
-<!-- JSON-LD para Google -->
 {% if page.layout == 'product' and page.price-br %}
 <script type="application/ld+json">
 {
@@ -44,10 +38,44 @@
   "@type": "Product",
   "name": "{{ page.title }}",
   "description": "{{ page.description | default: site.description }}",
+  "image": "{{ page.image | default: site.image | absolute_url }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "Lapsum Criativo"
+  },
   "offers": {
     "@type": "Offer",
-    "price": "{{ page.price-br }}",
-    "priceCurrency": "BRL"
+    "price": "{{ page.price-br | remove: 'R$' | strip | replace: '.', '' | replace: ',', '.' }}",
+    "priceCurrency": "BRL",
+    "availability": "https://schema.org/InStock",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "BRL"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "BR",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+    }
   }
 }
 </script>
