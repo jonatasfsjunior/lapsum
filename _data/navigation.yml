@@ -1,6 +1,6 @@
 - name: Início
   link: /#
-- name: Loja
-  link: /products/
+#- name: Loja
+#  link: /products/
 - name: Sobre Nós
   link: /about/
