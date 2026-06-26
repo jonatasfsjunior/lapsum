@@ -19,6 +19,9 @@ $card-background-color: rgb(25, 25, 25);
 $card-radius: 1rem;
 $card-shadow: none;
 
+$bulma-button-background-l: rgba(0, 0, 0, 0);
+$bulma-button-border-style: none;
+
 /* ↓ Removido o ponto — era seletor de classe, não o elemento */
 body {
     touch-action: none;
