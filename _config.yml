@@ -54,8 +54,17 @@ exclude:
   - vendor/ruby/
   - .vscode/
   - .github/
+# Páginas
   - _includes/gallery.html
   - gallery.md
+  - example-recipe.md
+  - links.md
+  - landing.md
+  - promo-page.md
+  - showcase.md
+  - sponsors.md
+  - _posts/
+  - blog/
 
 
 livereload: true
