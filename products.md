@@ -12,4 +12,5 @@ hero_images:
 hero_height: is-fullheight
 hero_image_thumbs: false
 hero_hide_text: true
+hero_lightbox: false
 ---
