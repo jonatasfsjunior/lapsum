@@ -30,8 +30,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
-          bundler: '4.0.15'
-          bundler-cache: true
+          bundler-cache: false
+
+      - name: Instalar dependências
+        run: |
+          gem install bundler:4.0.15
+          bundle _4.0.15_ install
 
       - name: Build Jekyll
         run: bundle exec jekyll build
