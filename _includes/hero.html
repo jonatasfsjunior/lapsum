@@ -1,13 +1,15 @@
-<section class="hero {% if page.hero_height %}{{ page.hero_height }}{% else %}is-medium{% endif %} is-bold is-primary"
+<section class="hero {% if page.hero_height %}{{ page.hero_height }}{% else %}is-medium{% endif %} is-bold is-primary{% if page.hero_lightbox %} hero-lightbox-enabled{% endif %}"
   id="hero-section">
   {% if page.hero_images %}
   {% for img in page.hero_images %}
   <div class="hero-slide{% if forloop.first %} active{% endif %}"
-    style="background: url('{{ img | relative_url }}') no-repeat center center; background-size: cover;"></div>
+    style="background: url('{{ img | relative_url }}') no-repeat center center; background-size: cover;"
+    data-lightbox-src="{{ img | relative_url }}"></div>
   {% endfor %}
   {% elsif page.hero_image %}
   <div class="hero-slide active"
-    style="background: url('{{ page.hero_image }}') no-repeat center center; background-size: cover;"></div>
+    style="background: url('{{ page.hero_image }}') no-repeat center center; background-size: cover;"
+    data-lightbox-src="{{ page.hero_image }}"></div>
   {% endif %}
 
   <div class="hero-body{% if page.hero_darken %} hero-darken{% endif %}">
@@ -37,14 +39,20 @@
   {% endif %}
 </section>
 
+{% if page.hero_lightbox %}
+<div id="hero-lightbox" class="hero-lightbox-overlay" role="dialog" aria-modal="true" aria-label="Visualização expandida">
+  <button class="hero-lightbox-close" id="hero-lightbox-close" aria-label="Fechar">&times;</button>
+  <img id="hero-lightbox-img" class="hero-lightbox-img" src="" alt="">
+</div>
+{% endif %}
+
 {% if page.hero_images and page.hero_images.size > 1 %}
 <script>
-  (function () {
-    var slides = document.querySelectorAll('#hero-section .hero-slide');
-    var thumbs = document.querySelectorAll('#hero-thumbs .hero-thumb');
-    var current = 0;
-    var ms = {{ page.hero_image_interval | default: 7000
-  }};
+(function () {
+  var slides = document.querySelectorAll('#hero-section .hero-slide');
+  var thumbs = document.querySelectorAll('#hero-thumbs .hero-thumb');
+  var current = 0;
+  var ms = {{ page.hero_image_interval | default: 7000 }};
 
   function goSlide(n) {
     slides[current].classList.remove('active');
@@ -64,6 +72,52 @@
 
   function tick() { goSlide((current + 1) % slides.length); }
   var timer = setInterval(tick, ms);
-}) ();
+})();
+</script>
+{% endif %}
+
+{% if page.hero_lightbox %}
+<script>
+(function () {
+  var hero    = document.getElementById('hero-section');
+  var overlay = document.getElementById('hero-lightbox');
+  var img     = document.getElementById('hero-lightbox-img');
+  var closeBtn = document.getElementById('hero-lightbox-close');
+
+  function getActiveUrl() {
+    var slide = hero.querySelector('.hero-slide.active');
+    return slide ? slide.getAttribute('data-lightbox-src') : null;
+  }
+
+  function openLightbox() {
+    var url = getActiveUrl();
+    if (!url) return;
+    img.src = url;
+    overlay.classList.add('active');
+    document.body.classList.add('lightbox-open');
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('active');
+    document.body.classList.remove('lightbox-open');
+    // Limpa o src só depois da transição para evitar flash
+    setTimeout(function () { img.src = ''; }, 300);
+  }
+
+  // Abre ao clicar no hero — ignora cliques em links e botões
+  hero.addEventListener('click', function (e) {
+    if (e.target.closest('a, button')) return;
+    openLightbox();
+  });
+
+  // Fecha pelo botão X, clique fora da imagem, ou Escape
+  closeBtn.addEventListener('click', closeLightbox);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeLightbox();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeLightbox();
+  });
+})();
 </script>
 {% endif %}
