@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo principal (privado)
+      - name: Checkout repo principal
         uses: actions/checkout@v4
 
       - name: Checkout repo de conteúdo
@@ -20,26 +20,32 @@ jobs:
           path: _content
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Mesclar conteúdo no site
+      - name: Mesclar conteúdo
         run: |
-          cp -r _content/_products ./_posts 2>/dev/null || true
+          cp -r _content/_posts ./_posts 2>/dev/null || true
           cp -r _content/_data ./_data 2>/dev/null || true
           rsync -a _content/assets/img/ ./assets/img/ 2>/dev/null || true
 
       - name: Configurar Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: '3.1'
           bundler: '4.0.15'
           bundler-cache: true
-          
+
       - name: Build Jekyll
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
 
+      - name: Preparar output para Vercel
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r _site/. .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
+
       - name: Deploy para Vercel
-        run: npx vercel --prod --yes
+        run: npx vercel deploy --prebuilt --prod --yes
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
