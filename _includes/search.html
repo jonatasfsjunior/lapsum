@@ -1,0 +1,183 @@
+<!-- Search bar — inclua com {% include search.html %} no layout -->
+<div id="lapsum-search-wrap">
+  <div class="search-trigger" id="searchTrigger" role="button" tabindex="0" aria-label="Abrir busca">
+    <span class="icon"><i class="fas fa-search"></i></span>
+    <span class="search-trigger-text is-hidden-mobile">Buscar produtos</span>
+    <kbd class="is-hidden-touch">/</kbd>
+  </div>
+</div>
+
+<!-- Overlay de busca -->
+<div id="searchOverlay" class="search-overlay" aria-hidden="true" role="dialog" aria-label="Buscar produtos">
+  <div class="search-modal">
+    <div class="search-modal-header">
+      <div class="search-input-wrap">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Buscar por modelo, marca, categoria..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Campo de busca"
+        />
+        <button class="search-clear" id="searchClear" aria-label="Limpar busca" style="display:none;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <button class="search-close" id="searchClose" aria-label="Fechar busca">Fechar</button>
+    </div>
+
+    <!-- Filtros de categoria -->
+    <div class="search-filters" id="searchFilters" aria-label="Filtrar por categoria">
+      <button class="search-filter-btn active" data-filter="all">Todos</button>
+    </div>
+
+    <!-- Resultados -->
+    <div class="search-body" id="searchBody">
+      <!-- Estado inicial -->
+      <div id="searchInitial" class="search-state">
+        <p class="search-hint">Digite para buscar entre <strong id="searchTotal">0</strong> produtos</p>
+      </div>
+
+      <!-- Grid de resultados -->
+      <div id="searchResults" class="search-results-grid" style="display:none;" aria-live="polite"></div>
+
+      <!-- Sem resultados -->
+      <div id="searchNoResults" class="search-state" style="display:none;">
+        <p>Nenhum resultado para "<strong id="searchQuery"></strong>"</p>
+        <p class="search-hint">Tente termos como: toyota, picape, hatch, bmw…</p>
+      </div>
+
+      <!-- Carregando -->
+      <div id="searchLoading" class="search-state" style="display:none;">
+        <p class="search-hint">Carregando índice…</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ── Trigger ── */
+.search-trigger {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 6px 12px; border-radius: 6px;
+  color: #ccc; border: 1px solid rgba(255,255,255,0.15);
+  transition: color 0.15s, border-color 0.15s;
+  font-size: 0.875rem;
+}
+.search-trigger:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+.search-trigger kbd {
+  font-size: 11px; background: rgba(255,255,255,0.1); border-radius: 3px;
+  padding: 1px 5px; font-family: inherit; border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ── Overlay ── */
+.search-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 5vh;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.search-overlay.is-open { opacity: 1; pointer-events: all; }
+
+/* ── Modal ── */
+.search-modal {
+  width: 100%; max-width: 760px;
+  background: #111; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; overflow: hidden;
+  max-height: 80vh; display: flex; flex-direction: column;
+  transform: translateY(-16px); transition: transform 0.2s;
+}
+.search-overlay.is-open .search-modal { transform: translateY(0); }
+
+/* ── Header ── */
+.search-modal-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.search-input-wrap {
+  flex: 1; display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.06); border-radius: 6px;
+  padding: 0 12px; height: 44px;
+}
+.search-icon { color: rgba(255,255,255,0.4); font-size: 15px; flex-shrink: 0; }
+.search-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: #fff; font-size: 15px; font-family: 'Barlow', sans-serif;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
+.search-clear {
+  background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.4);
+  padding: 4px; font-size: 14px; transition: color 0.15s;
+}
+.search-clear:hover { color: #fff; }
+.search-close {
+  background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.5);
+  font-size: 13px; font-family: 'Barlow', sans-serif; padding: 6px 10px;
+  border-radius: 4px; transition: color 0.15s, background 0.15s; white-space: nowrap;
+}
+.search-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+/* ── Filtros ── */
+.search-filters {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.search-filter-btn {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.15); background: transparent;
+  color: rgba(255,255,255,0.6); font-family: 'Barlow', sans-serif;
+  transition: all 0.12s;
+}
+.search-filter-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+.search-filter-btn.active { background: #C8102E; border-color: #C8102E; color: #fff; }
+
+/* ── Body / Grid ── */
+.search-body { flex: 1; overflow-y: auto; padding: 16px; }
+.search-state { text-align: center; padding: 2rem 1rem; color: rgba(255,255,255,0.4); }
+.search-state strong { color: rgba(255,255,255,0.8); }
+.search-hint { font-size: 13px; margin-top: 6px; }
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.search-result-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; transition: border-color 0.15s, background 0.15s;
+}
+.search-result-card:hover { border-color: #C8102E; background: rgba(200,16,46,0.06); }
+.search-result-img { height: 90px; overflow: hidden; background: #1a1a1a; }
+.search-result-img img { width: 100%; height: 100%; object-fit: cover; }
+.search-result-body { padding: 10px 12px; }
+.search-result-category {
+  font-size: 11px; color: #C8102E; text-transform: uppercase;
+  letter-spacing: 0.06em; font-weight: 600; margin-bottom: 4px;
+}
+.search-result-title {
+  font-size: 13px; font-weight: 500; color: #fff; line-height: 1.35;
+  margin-bottom: 6px;
+}
+.search-result-title mark {
+  background: rgba(200,16,46,0.3); color: #ff6b6b; border-radius: 2px;
+  padding: 0 1px;
+}
+.search-result-price { font-size: 13px; font-weight: 600; color: #C8102E; }
+.search-result-price.is-free { color: #48c774; }
+
+/* ── Scrollbar ── */
+.search-body::-webkit-scrollbar { width: 4px; }
+.search-body::-webkit-scrollbar-track { background: transparent; }
+.search-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .search-overlay { padding-top: 0; align-items: flex-end; }
+  .search-modal { max-height: 92vh; border-radius: 14px 14px 0 0; }
+}
+</style>

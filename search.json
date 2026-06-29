@@ -1,0 +1,18 @@
+---
+layout: null
+---
+[
+  {% for product in site.products %}{% unless product.hidden %}
+  {
+    "id": {{ forloop.index0 }},
+    "title": {{ product.title | jsonify }},
+    "description": {{ product.description | default: "" | strip_html | truncate: 200 | jsonify }},
+    "category": {{ product.category | default: "" | jsonify }},
+    "price": {{ product.price | default: "" | jsonify }},
+    "free": {{ product.free | default: false | jsonify }},
+    "tags": {{ product.tags | default: "" | jsonify }},
+    "url": {{ product.url | prepend: site.baseurl | jsonify }},
+    "image": {{ product.images[0] | prepend: site.baseurl | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endunless %}{% endfor %}
+]
