@@ -55,6 +55,7 @@
                                 class="navbar-item {% if item.link == page.url %}is-active{% endif %}"
                             >
                                 {{- item.name -}}
+                                {% include search.html %}
                             </a>
                         {% endif %}
                     {% endfor %}
