@@ -40,13 +40,13 @@
   {% endif %}
 </section>
 
-{% if page.hero_lightbox %}
+{% unless page.hero_lightbox == false %}
 <div id="hero-lightbox" class="hero-lightbox-overlay" role="dialog" aria-modal="true"
   aria-label="Visualização expandida">
   <button class="hero-lightbox-close" id="hero-lightbox-close" aria-label="Fechar">&times;</button>
   <img id="hero-lightbox-img" class="hero-lightbox-img" src="" alt="">
 </div>
-{% endif %}
+{% endunless %}
 
 {% if page.hero_images and page.hero_images.size > 1 %}
 <script>
@@ -107,9 +107,30 @@
       setTimeout(function () { img.src = ''; }, 300);
     }
 
-    // Abre ao clicar no hero — ignora cliques em links e botões
+    // Abre ao clicar no hero — ignora cliques em links/botões e ignora swipes
+    // (um toque que se move mais que TAP_THRESHOLD vira scroll, não abre o lightbox)
+    var TAP_THRESHOLD = 10; // px
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var isSwipe = false;
+
+    hero.addEventListener('touchstart', function (e) {
+      if (!e.touches || !e.touches.length) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isSwipe = false;
+    }, { passive: true });
+
+    hero.addEventListener('touchmove', function (e) {
+      if (!e.touches || !e.touches.length) return;
+      var dx = Math.abs(e.touches[0].clientX - touchStartX);
+      var dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (dx > TAP_THRESHOLD || dy > TAP_THRESHOLD) isSwipe = true;
+    }, { passive: true });
+
     hero.addEventListener('click', function (e) {
       if (e.target.closest('a, button')) return;
+      if (isSwipe) { isSwipe = false; return; }
       openLightbox();
     });
 

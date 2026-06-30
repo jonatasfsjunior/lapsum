@@ -22,11 +22,6 @@ $card-shadow: none;
 $bulma-button-background-l: rgba(0, 0, 0, 0);
 $bulma-button-border-style: none;
 
-/* ↓ Removido o ponto — era seletor de classe, não o elemento */
-body {
-    touch-action: none;
-}
-
 figure.header-logo {
     width: 4rem;
     height: 4rem;
